@@ -6,10 +6,10 @@
 
 long numberOfPiles(long* pileCount, int N, long K) {
 	int i;
-	long number_piles = 0;
+	float number_piles = 0.0;
 	for (i = 0; i < N; i++)
 		number_piles += ceil(pileCount[i] / (K * 1.0));
-	return number_piles;
+	return (long)number_piles;
 }
 
 int main() {
@@ -39,13 +39,13 @@ int main() {
 		// for each K find if the number of piles formed after dividing the piles w.r.t K 
 		// are < = > H and proceed accordingly in the binary search
 
-		long low = 1;
+		long low = 1L;
 		long high = pileCount[0];
 		for (i = 1; i < N; i++)
 			if (pileCount[i] > high)
 				high = pileCount[i];
 
-		long K;
+		long K = high;
 		while (low <= high) {
 			long mid = low + (high - low) / 2;
 
