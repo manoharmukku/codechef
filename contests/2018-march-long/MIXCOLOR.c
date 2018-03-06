@@ -31,7 +31,7 @@ int main() {
 		qsort(colors, N, sizeof(long), cmpfunc);
 
 		// Find the minimum mixings possible
-		// It is nothing but the count of the repeated elements in the array
+		// It is nothing but the count of the repeated elements' repetition in the array
 		int count = 0;
 		for (i = 1; i < N; i++) {
 			if (colors[i] == colors[i-1])
