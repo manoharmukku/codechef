@@ -50,11 +50,11 @@ int main() {
 			long mid = low + (high - low) / 2;
 
 			long number_piles = numberOfPiles(pileCount, N, mid);
-			if (number_piles == H) {
+			/*if (number_piles == H) {
 				K = mid;
 				break;
 			}
-			else if (number_piles < H) {
+			else */if (number_piles <= H) {
 				K = mid;
 				high = mid - 1;
 			}
