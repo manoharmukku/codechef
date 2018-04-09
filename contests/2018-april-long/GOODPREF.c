@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define min(x, y) ((x < y) ? (x) : (y))
+
 int main() {
 	int T;
 	scanf ("%d", &T);
@@ -13,6 +15,8 @@ int main() {
 		char* s = (char*)malloc(1004 * sizeof(char));
 
 		scanf ("%s %ld", s, &n);
+
+		if (n <= 0) exit(-1); // invalid input
 
 		int len = strlen(s);
 
@@ -35,14 +39,16 @@ int main() {
 		if (difference[len-1] == 0) {
 			for (i = 0; i < len; i++) {
 				if (difference[i] > 0)
-					count++;
+					count += n;
 			}
-			count *= n;
 		}
 		else if (difference[len-1] > 0) {
 			for (i = 0; i < len; i++) {
-				if (difference[i] <= 0)
-					count += (n - ((-difference[i]) / difference[len-1]) - 1);
+				if (difference[i] <= 0) {
+					long value = n - ((-difference[i]) / difference[len-1]) - 1;
+					if (value > 0)
+						count += value;
+				}
 				else 
 					count += n;
 			}
@@ -50,13 +56,14 @@ int main() {
 		else {
 			for (i = 0; i < len; i++) {
 				if (difference[i] > 0) {
-					if (difference[i] % (-difference[len-1]) == 0)
-						count += (difference[i] / (-difference[len-1]));
-					else
-						count += ((difference[i] / (-difference[len-1])) + 1);
+					if (difference[i] % (-difference[len-1]) == 0) {
+						count += min(n, (difference[i] / (-difference[len-1])));
+					}
+					else {
+						count += min(n, ((difference[i] / (-difference[len-1])) + 1));
+					}
 				}
 			}
-
 		}
 
 		printf("%lld\n", count);
