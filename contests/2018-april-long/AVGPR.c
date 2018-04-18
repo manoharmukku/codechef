@@ -14,7 +14,7 @@ int main() {
 		int N;
 		scanf ("%d", &N);
 
-		int i, j;
+		int i;
 		int* A = (int*)malloc(N * sizeof(int));
 
 		int* presentCount = (int*)calloc(2*RANGE+1, sizeof(int));
@@ -24,12 +24,31 @@ int main() {
 			presentCount[A[i] + RANGE]++;
 		}
 
-		int i, count = 0;
-		for (i = -RANGE; i <= RANGE; i++) {
-			
+		long count = 0;
+		int A_k;
+		for (A_k = 0; A_k <= RANGE; A_k++) {
+			if (presentCount[A_k + RANGE] <= 0) continue;
+			int A_i, A_j;
+			for (A_i = 2*A_k - RANGE, A_j = RANGE; A_i < A_j; A_i++, A_j--) {
+				if (presentCount[A_i + RANGE] > 0 && presentCount[A_j + RANGE] > 0)
+					count += presentCount[A_i + RANGE] * presentCount[A_j + RANGE];
+			}
+			if (A_i == A_j && presentCount[A_i + RANGE] >= 2)
+				count += (presentCount[A_i + RANGE] * (presentCount[A_i + RANGE] - 1)) / 2;
 		}
 
-		printf("%d\n", count);
+		for (A_k = -RANGE; A_k < 0 && presentCount[A_k + RANGE] > 0; A_k++) {
+			if (presentCount[A_k + RANGE] <= 0) continue;
+			int A_i, A_j;
+			for (A_i = -RANGE, A_j = 2*A_k + RANGE; A_i < A_j; A_i++, A_j--) {
+				if (presentCount[A_i + RANGE] > 0 && presentCount[A_j + RANGE] > 0)
+					count += presentCount[A_i + RANGE] * presentCount[A_j + RANGE];
+			}
+			if (A_i == A_j && presentCount[A_i + RANGE] >= 2)
+				count += (presentCount[A_i + RANGE] * (presentCount[A_i + RANGE] - 1)) / 2;
+		}
+
+		printf("%ld\n", count);
 
 		free(A);
 		free(presentCount);
